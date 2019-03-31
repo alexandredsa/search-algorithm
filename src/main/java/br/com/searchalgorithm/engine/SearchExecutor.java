@@ -31,7 +31,7 @@ public final class SearchExecutor {
         List<Future<List<String>>> futures = new ArrayList<>();
         TreeSet<String> result = new TreeSet<>();
         for (int i = 0; i < filenames.size(); i += this.batchSize) {
-            SearchTask task = SearchTask.with(filenames.subList(i, i + this.batchSize), this.terms);
+            SearchTask task = SearchTask.with(filenames.subList(i, Math.min(i + this.batchSize, this.filenames.size())), this.terms);
             futures.add(this.threadpool.submit(task));
         }
 
