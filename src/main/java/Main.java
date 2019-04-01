@@ -4,9 +4,7 @@ import br.com.searchalgorithm.file.FileReader;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class Main {
     private static final int BATCH_SIZE = 300;
