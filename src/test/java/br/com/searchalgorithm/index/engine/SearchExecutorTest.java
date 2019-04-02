@@ -1,11 +1,9 @@
-package br.com.searchalgorithm.engine;
+package br.com.searchalgorithm.index.engine;
 
 import br.com.searchalgorithm.file.FileReader;
 import org.junit.Test;
 
 import java.nio.file.Path;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.List;
 
 import static org.junit.Assert.*;
