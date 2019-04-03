@@ -1,4 +1,6 @@
-package br.com.searchalgorithm.index.utils.file;
+package br.com.searchalgorithm.index.io.utils;
+
+import br.com.searchalgorithm.index.models.IndexModel;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -34,5 +36,4 @@ public class FileReader {
 
         return words;
     }
-
 }

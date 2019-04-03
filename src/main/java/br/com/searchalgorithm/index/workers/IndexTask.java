@@ -1,6 +1,7 @@
 package br.com.searchalgorithm.index.workers;
 
-import br.com.searchalgorithm.index.utils.file.FileReader;
+
+import br.com.searchalgorithm.index.io.utils.FileReader;
 
 import java.io.FileNotFoundException;
 import java.nio.file.Path;

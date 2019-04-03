@@ -2,6 +2,10 @@ package br.com.searchalgorithm.index;
 
 
 import br.com.searchalgorithm.index.engine.SearchExecutor;
+import br.com.searchalgorithm.index.io.FileManager;
+import br.com.searchalgorithm.index.io.IndexFileManager;
+import br.com.searchalgorithm.index.repositories.IndexRepository;
+import br.com.searchalgorithm.index.repositories.IndexRepositoryImpl;
 import br.com.searchalgorithm.index.validators.BasicValidator;
 import br.com.searchalgorithm.index.validators.FileParameterValidator;
 import br.com.searchalgorithm.index.validators.QueryParameterValidator;
@@ -24,8 +28,10 @@ public class Search {
 
         final String path = args[0];
         final String terms = args[1];
+        final FileManager fileManager = new IndexFileManager();
 
-        TreeSet<String> result = SearchExecutor.with(path, terms.split(" ")).run();
+        final IndexRepository indexRepository = new IndexRepositoryImpl(path, fileManager);
+        TreeSet<String> result = SearchExecutor.with(indexRepository, terms.split(" ")).run();
         displayResult(result, terms);
         System.exit(0);
     }

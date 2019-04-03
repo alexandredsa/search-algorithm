@@ -1,6 +1,10 @@
 package br.com.searchalgorithm.index;
 
-import br.com.searchalgorithm.index.utils.file.FileReader;
+import br.com.searchalgorithm.index.io.FileManager;
+import br.com.searchalgorithm.index.io.IndexFileManager;
+import br.com.searchalgorithm.index.io.utils.FileReader;
+import br.com.searchalgorithm.index.repositories.IndexRepository;
+import br.com.searchalgorithm.index.repositories.IndexRepositoryImpl;
 import br.com.searchalgorithm.index.validators.FileParameterValidator;
 import br.com.searchalgorithm.index.workers.IndexExecutor;
 
@@ -15,8 +19,13 @@ public class IndexRunner {
     public static void main(String[] args) throws Exception {
         validateArgs(args);
         final String path = args[0];
+        final FileManager fileManager = new IndexFileManager();
+
         List<Path> filenames = FileReader.getFilenames(path);
-        IndexExecutor.with(filenames, BATCH_SIZE, path).run();
+
+        final IndexRepository indexRepository = new IndexRepositoryImpl(path, fileManager);
+
+        IndexExecutor.with(indexRepository, filenames, BATCH_SIZE).run();
         System.exit(0);
     }
 
