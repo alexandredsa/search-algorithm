@@ -26,15 +26,15 @@ public class Search {
         final String terms = args[1];
 
         TreeSet<String> result = SearchExecutor.with(path, terms.split(" ")).run();
-        displayResult(result, args);
+        displayResult(result, terms);
         System.exit(0);
     }
 
-    private static void displayResult(TreeSet<String> result, String[] terms) {
+    private static void displayResult(TreeSet<String> result, String terms) {
         System.out.println(String.format("Foram encontradas %d ocorrências pelo termo %s",
                 result.size(), String.join(" ", terms)));
 
-        System.out.println(String.format("Os arquivos que possuem \"%s\" são:", String.join(" ", terms)));
+        System.out.println(String.format("Os arquivos que possuem \"%s\" são:", terms));
         result.forEach(System.out::println);
     }
 
