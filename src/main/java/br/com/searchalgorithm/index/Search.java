@@ -2,24 +2,31 @@ package br.com.searchalgorithm.index;
 
 
 import br.com.searchalgorithm.index.engine.SearchExecutor;
+import br.com.searchalgorithm.index.validators.BasicValidator;
+import br.com.searchalgorithm.index.validators.FileParameterValidator;
+import br.com.searchalgorithm.index.validators.QueryParameterValidator;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.TreeSet;
 
 public class Search {
-    private static final String PARAM_CONTEXT_PATH = "path";
-    private static final String PARAM_TERMS = "terms";
+    private static final BasicValidator fileParameterValidator = new FileParameterValidator();
+    private static final BasicValidator queryParameterValidator = new QueryParameterValidator();
 
-    public static void main(String[] args) {
-        Instant start = Instant.now();
-        final String path = System.getProperty(PARAM_CONTEXT_PATH, Paths.get(".").toAbsolutePath().normalize().toString());
-        final String terms = System.getProperty(PARAM_TERMS, "");
-        TreeSet<String> result = SearchExecutor.with("/home/oem/Documentos/movies", new String[]{"walt", "disney"}).run();
+
+    public static void main(String[] args) throws Exception {
+        validateArgs(args);
+
+        final String path = args[0];
+        final String terms = args[1];
+
+        TreeSet<String> result = SearchExecutor.with(path, terms.split(" ")).run();
         displayResult(result, args);
-        Instant end = Instant.now();
-        System.out.println(Duration.between(start, end));
         System.exit(0);
     }
 
@@ -29,5 +36,17 @@ public class Search {
 
         System.out.println(String.format("Os arquivos que possuem \"%s\" são:", String.join(" ", terms)));
         result.forEach(System.out::println);
+    }
+
+
+    private static void validateArgs(String[] args) throws Exception {
+        if(args.length == 0) {
+            throw new IllegalArgumentException("Should pass 2 arguments: " +
+                    "\n1)An argument representing a valid path for a directory" +
+                    "\n2)An argument representing a query like: \"walt disney\"");
+        }
+
+        fileParameterValidator.validate(args[0]);
+        queryParameterValidator.validate(args[1]);
     }
 }

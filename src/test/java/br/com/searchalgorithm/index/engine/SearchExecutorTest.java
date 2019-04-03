@@ -1,12 +1,6 @@
 package br.com.searchalgorithm.index.engine;
 
-import br.com.searchalgorithm.file.FileReader;
 import org.junit.Test;
-
-import java.nio.file.Path;
-import java.util.List;
-
-import static org.junit.Assert.*;
 
 public class SearchExecutorTest {
 
@@ -14,7 +8,5 @@ public class SearchExecutorTest {
 
     @Test(timeout = 1)
     public void run() {
-        List<Path> filenames = FileReader.getFilenames("/Users/alexandre/zProjects/lulabs/data");
-        List<String> result = SearchExecutor.with(filenames, new String[]{"from", "year"}, BATCH_SIZE).run();
     }
 }
