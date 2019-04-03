@@ -13,7 +13,6 @@ import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 public final class IndexExecutor {
-    private String context;
     private final IndexRepository indexRepository;
     private final ExecutorService threadpool;
 
