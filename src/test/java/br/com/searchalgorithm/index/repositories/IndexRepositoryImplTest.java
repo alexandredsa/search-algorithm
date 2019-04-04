@@ -39,6 +39,13 @@ public class IndexRepositoryImplTest {
     }
 
     @Test
-    public void retrieve() {
+    public void retrieve() throws IOException, ClassNotFoundException {
+        final String baseContext = "/path/fake/data";
+        this.indexRepository = new IndexRepositoryImpl(baseContext, fileManager);
+        IndexModel indexModel = new IndexModel();
+        indexModel.setTerm("test");
+        Mockito.when(fileManager.read(Mockito.anyString())).thenReturn(indexModel);
+        IndexModel retrievedModel = this.indexRepository.retrieve("test");
+        Assert.assertTrue(retrievedModel.equals(indexModel));
     }
 }
