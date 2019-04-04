@@ -1,6 +1,7 @@
 package br.com.searchalgorithm.index.models;
 
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.TreeSet;
 
 public class IndexModel implements Serializable {
@@ -31,6 +32,20 @@ public class IndexModel implements Serializable {
 
     public void setFilenames(TreeSet<String> filenames) {
         this.filenames = filenames;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        IndexModel that = (IndexModel) o;
+        return Objects.equals(term, that.term) &&
+                Objects.equals(filenames, that.filenames);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(term, filenames);
     }
 
     @Override

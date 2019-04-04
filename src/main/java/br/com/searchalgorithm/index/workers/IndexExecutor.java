@@ -1,5 +1,6 @@
 package br.com.searchalgorithm.index.workers;
 
+import br.com.searchalgorithm.index.io.utils.FileReaderImpl;
 import br.com.searchalgorithm.index.models.IndexModel;
 import br.com.searchalgorithm.index.repositories.IndexRepository;
 
@@ -10,22 +11,23 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.stream.Collectors;
 
 public final class IndexExecutor {
     private final IndexRepository indexRepository;
     private final ExecutorService threadpool;
+    private final FileReaderImpl fileReader;
 
     private List<Path> filenames;
     private int batchSize;
 
-    private IndexExecutor(String context) {
+    private IndexExecutor(IndexRepository indexRepository) {
         this.threadpool = Executors.newFixedThreadPool(5);
-        this.indexRepository = new IndexRepository(context);
+        this.indexRepository = indexRepository;
+        this.fileReader = new FileReaderImpl();
     }
 
-    public static IndexExecutor with(List<Path> filenames, int batchSize, String context) {
-        IndexExecutor indexExecutor = new IndexExecutor(context);
+    public static IndexExecutor with(IndexRepository indexRepository, List<Path> filenames, int batchSize) {
+        IndexExecutor indexExecutor = new IndexExecutor(indexRepository);
         indexExecutor.filenames = filenames;
         indexExecutor.batchSize = batchSize;
         return indexExecutor;
@@ -52,12 +54,11 @@ public final class IndexExecutor {
         List<Future<Map<String, List<String>>>> futures = new ArrayList<>();
 
         for (int i = 0; i < filenames.size(); i += this.batchSize) {
-            IndexTask task = IndexTask.with(filenames.subList(i, Math.min(i + this.batchSize, this.filenames.size())));
+            IndexTask task = IndexTask.with(filenames.subList(i, Math.min(i + this.batchSize, this.filenames.size())), this.fileReader);
             futures.add(this.threadpool.submit(task));
         }
 
         while (futures.stream().anyMatch(f -> !f.isDone())) {}
-
 
         Map<String, TreeSet<String>> result = new HashMap<>();
         futures.stream()

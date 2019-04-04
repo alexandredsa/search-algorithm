@@ -2,7 +2,10 @@ package br.com.searchalgorithm.index.engine;
 
 import br.com.searchalgorithm.index.repositories.IndexRepository;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.TreeSet;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -18,9 +21,9 @@ public final class SearchExecutor {
         this.threadpool = Executors.newFixedThreadPool(3);
     }
 
-    public static SearchExecutor with(String context, String[] terms) {
+    public static SearchExecutor with(IndexRepository indexRepository, String[] terms) {
         SearchExecutor searchExecutor = new SearchExecutor();
-        searchExecutor.indexRepository = new IndexRepository(context);
+        searchExecutor.indexRepository = indexRepository;
         searchExecutor.terms = terms;
         return searchExecutor;
     }
