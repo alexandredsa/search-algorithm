@@ -1,9 +1,6 @@
 package br.com.searchalgorithm.index.validators;
 
 import org.junit.Test;
-import sun.jvm.hotspot.types.basic.BasicVtblAccess;
-
-import static org.junit.Assert.*;
 
 public class FileParameterValidatorTest {
 
