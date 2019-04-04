@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class IndexRepositoryImpl implements IndexRepository {
-    private static final String CUSTOM_EXTENSION_TYPE = "llabs";
+    public static final String CUSTOM_EXTENSION_TYPE = "llabs";
 
     private String context;
     private FileManager indexFileManager;

@@ -1,5 +1,6 @@
 package br.com.searchalgorithm.index.workers;
 
+import br.com.searchalgorithm.index.io.utils.FileReaderImpl;
 import br.com.searchalgorithm.index.models.IndexModel;
 import br.com.searchalgorithm.index.repositories.IndexRepository;
 
@@ -14,6 +15,7 @@ import java.util.concurrent.Future;
 public final class IndexExecutor {
     private final IndexRepository indexRepository;
     private final ExecutorService threadpool;
+    private final FileReaderImpl fileReader;
 
     private List<Path> filenames;
     private int batchSize;
@@ -21,6 +23,7 @@ public final class IndexExecutor {
     private IndexExecutor(IndexRepository indexRepository) {
         this.threadpool = Executors.newFixedThreadPool(5);
         this.indexRepository = indexRepository;
+        this.fileReader = new FileReaderImpl();
     }
 
     public static IndexExecutor with(IndexRepository indexRepository, List<Path> filenames, int batchSize) {
@@ -51,7 +54,7 @@ public final class IndexExecutor {
         List<Future<Map<String, List<String>>>> futures = new ArrayList<>();
 
         for (int i = 0; i < filenames.size(); i += this.batchSize) {
-            IndexTask task = IndexTask.with(filenames.subList(i, Math.min(i + this.batchSize, this.filenames.size())));
+            IndexTask task = IndexTask.with(filenames.subList(i, Math.min(i + this.batchSize, this.filenames.size())), this.fileReader);
             futures.add(this.threadpool.submit(task));
         }
 
