@@ -20,6 +20,7 @@ import static org.junit.Assert.*;
 public class SearchTaskTest {
     @Mock
     IndexRepositoryImpl indexRepository;
+
     @Test
     public void call() throws IOException, ClassNotFoundException {
         IndexModel indexModel = new IndexModel();

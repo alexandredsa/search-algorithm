@@ -7,6 +7,6 @@ public class FileParameterValidatorTest {
     @Test(expected = Exception.class)
     public void validate() throws Exception {
         BasicValidator fileParameterValidator = new FileParameterValidator();
-        fileParameterValidator.validate("  ");
+        fileParameterValidator.validate("/path/fake");
     }
 }

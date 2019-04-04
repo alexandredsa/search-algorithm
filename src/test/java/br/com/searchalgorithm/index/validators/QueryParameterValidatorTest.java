@@ -9,6 +9,6 @@ public class QueryParameterValidatorTest {
     @Test(expected = Exception.class)
     public void validate() throws Exception {
         BasicValidator queryParameterValidator = new QueryParameterValidator();
-        queryParameterValidator.validate("/invalid/path");
+        queryParameterValidator.validate("   ");
     }
 }
